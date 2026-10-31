@@ -32,6 +32,9 @@ function checkRateLimit(key: string, limit = 20): { allowed: boolean; remaining:
   return { allowed: true, remaining: limit - userUsage.count };
 }
 
+// Ideogram + Blob copy can exceed the default serverless timeout
+export const maxDuration = 60;
+
 export async function POST(req: NextRequest) {
   try {
     const json = await req.json();

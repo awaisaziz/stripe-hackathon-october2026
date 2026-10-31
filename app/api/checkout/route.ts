@@ -24,7 +24,7 @@ const checkoutSchema = z.object({
       markupCents: z.number().int().min(0).default(0),
     })
     .optional(),
-  garment: z.enum(["tshirt", "hoodie", "longsleeve", "tank", "crewneck", "tote"]),
+  garment: z.enum(["tshirt", "hoodie", "longsleeve", "tank", "crewneck", "tote", "socks", "shoes"]),
   color: z.string().min(1),
   measurements: z.object({
     unit: z.enum(["in", "cm"]),
@@ -32,6 +32,8 @@ const checkoutSchema = z.object({
     bodyLength: z.number().positive(),
   }),
 });
+
+export const maxDuration = 30;
 
 export async function POST(req: NextRequest) {
   try {
@@ -89,7 +91,7 @@ export async function POST(req: NextRequest) {
     });
 
     const garmentConfig = GARMENT_CATALOG[garment as GarmentType];
-    const appUrl = process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000";
+    const appUrl = process.env.NEXT_PUBLIC_APP_URL || req.nextUrl.origin;
 
     const session = await stripe.checkout.sessions.create({
       payment_method_types: ["card"],
