@@ -6,6 +6,7 @@ export interface GenerateOptions {
   aspectRatio?: "ASPECT_1_1" | "ASPECT_4_5" | "ASPECT_3_4" | "ASPECT_16_9";
   negativePrompt?: string;
   transparentBackground?: boolean;
+  numImages?: number; // 1-4
 }
 
 export interface GenerationResult {
@@ -59,7 +60,7 @@ export async function generateArtwork(options: GenerateOptions): Promise<Generat
   // If no API key is set yet, return curated fallback samples with notice
   if (!apiKey || apiKey === "placeholder" || apiKey === "") {
     return {
-      images: SAMPLE_PREVIEWS.map((url, i) => ({
+      images: SAMPLE_PREVIEWS.slice(0, options.numImages ?? 4).map((url, i) => ({
         url,
         prompt: `${options.prompt} (Demo sample #${i + 1} - add IDEOGRAM_API_KEY in .env.local for live AI generation)`,
       })),
@@ -81,7 +82,7 @@ export async function generateArtwork(options: GenerateOptions): Promise<Generat
   form.append("magic_prompt", "auto");
   form.append("size", "auto");
   form.append("quality", "low");
-  form.append("num_images", "4");
+  form.append("num_images", String(Math.min(4, Math.max(1, options.numImages ?? 4))));
   form.append("async", "true");
 
   const fail = async (response: Response): Promise<never> => {

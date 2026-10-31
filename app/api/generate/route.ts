@@ -10,6 +10,7 @@ const generateSchema = z.object({
   aspectRatio: z.enum(["ASPECT_1_1", "ASPECT_4_5", "ASPECT_3_4", "ASPECT_16_9"]).optional(),
   negativePrompt: z.string().max(500).optional(),
   transparentBackground: z.boolean().optional(),
+  numImages: z.number().int().min(1).max(4).optional(),
 });
 
 // In-memory rate-limiter: records count per key (userId or IP) for the current calendar day

@@ -184,7 +184,7 @@ export function MockupCanvas({
         style={{
           aspectRatio: "4 / 5",
           perspective: 1000,
-          background: `radial-gradient(120% 120% at 50% 25%, ${colorHex} 0%, #0d0d10 75%, #050507 100%)`,
+          background: "radial-gradient(120% 120% at 50% 25%, #ffffff 0%, #f4f4f6 70%, #e9e9ee 100%)",
         }}
       >
         {/* 3D Transformed Garment Plane */}

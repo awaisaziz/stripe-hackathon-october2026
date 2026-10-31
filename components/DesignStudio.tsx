@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 import {
   Sparkles,
@@ -55,6 +55,7 @@ export function DesignStudio() {
   const [prompt, setPrompt] = useState(initialPrompt);
   const [selectedStyle, setSelectedStyle] = useState<string>("streetwear");
   const [transparentBg, setTransparentBg] = useState(true);
+  const [numImages, setNumImages] = useState(4);
   const [negativePrompt, setNegativePrompt] = useState("");
   const [showAdvanced, setShowAdvanced] = useState(false);
 
@@ -109,6 +110,7 @@ export function DesignStudio() {
           prompt,
           style: selectedStyle,
           transparentBackground: transparentBg,
+          numImages,
           negativePrompt: negativePrompt || undefined,
         }),
       });
@@ -118,6 +120,8 @@ export function DesignStudio() {
         throw new Error(data.error || "Generation request failed");
       }
 
+      setVariations([]);
+      setSelectedImage("");
       setVariations(data.images || []);
       if (data.images && data.images.length > 0) {
         setSelectedImage(data.images[0].url);
@@ -129,14 +133,6 @@ export function DesignStudio() {
       setIsGenerating(false);
     }
   };
-
-  // Trigger initial generation on mount if variations are empty
-  useEffect(() => {
-    if (variations.length === 0) {
-      handleGenerate();
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
 
   // Sync default color when garment changes
   const handleGarmentChange = (newGarment: GarmentType) => {
@@ -375,11 +371,25 @@ export function DesignStudio() {
                 placeholder="Describe your graphic artwork in natural language (e.g., 'Retro 80s arcade machine overgrown with ivy and wild roses, cyberpunk neon glyphs')..."
                 className="w-full bg-zinc-950 border border-zinc-700 rounded-xl p-3.5 text-sm text-white placeholder-zinc-500 focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary/40 leading-relaxed"
               />
+              <div className="absolute bottom-3 right-3 flex items-center gap-2">
+                <select
+                  value={numImages}
+                  onChange={(e) => setNumImages(Number(e.target.value))}
+                  disabled={isGenerating}
+                  aria-label="Number of variations"
+                  className="bg-zinc-900 border border-zinc-700 text-zinc-200 text-xs font-semibold rounded-lg px-2 py-2 focus:outline-none focus:border-primary"
+                >
+                  {[1, 2, 3, 4].map((n) => (
+                    <option key={n} value={n}>
+                      {n} {n === 1 ? "variation" : "variations"}
+                    </option>
+                  ))}
+                </select>
               <button
                 type="button"
                 onClick={handleGenerate}
                 disabled={isGenerating || !prompt.trim()}
-                className="absolute bottom-3 right-3 flex items-center gap-2 bg-primary hover:bg-primary-hover disabled:opacity-50 text-black text-xs font-bold px-4 py-2 rounded-lg transition-all shadow-md shadow-primary/20"
+                className="flex items-center gap-2 bg-primary hover:bg-primary-hover disabled:opacity-50 text-black text-xs font-bold px-4 py-2 rounded-lg transition-all shadow-md shadow-primary/20"
               >
                 {isGenerating ? (
                   <>
@@ -389,10 +399,11 @@ export function DesignStudio() {
                 ) : (
                   <>
                     <Sparkles className="w-3.5 h-3.5" />
-                    <span>Generate (4 variations)</span>
+                    <span>Generate</span>
                   </>
                 )}
               </button>
+              </div>
             </div>
 
             {/* Style Chips */}
@@ -490,13 +501,13 @@ export function DesignStudio() {
             <div className="space-y-2 pt-2">
               <div className="text-xs font-medium text-zinc-300 flex items-center justify-between">
                 <span>Select Variation to Place:</span>
-                <span className="text-[11px] text-zinc-400 font-mono">4 variations rendered</span>
+                <span className="text-[11px] text-zinc-400 font-mono">{variations.length} variation{variations.length === 1 ? "" : "s"} rendered</span>
               </div>
 
               <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
                 {isGenerating ? (
                   // Loading skeletons
-                  [1, 2, 3, 4].map((i) => (
+                  Array.from({ length: numImages }, (_, i) => i + 1).map((i) => (
                     <div
                       key={i}
                       className="aspect-square rounded-xl bg-zinc-950 border border-zinc-800 animate-pulse flex flex-col items-center justify-center p-3"
@@ -538,7 +549,7 @@ export function DesignStudio() {
                   })
                 ) : (
                   <div className="col-span-4 py-8 text-center text-xs text-zinc-500 bg-zinc-950 rounded-xl border border-zinc-850">
-                    Click &ldquo;Generate&rdquo; to create 4 unique variations for this garment.
+                    Click &ldquo;Generate&rdquo; to create {numImages} unique variation{numImages === 1 ? "" : "s"} for this garment.
                   </div>
                 )}
               </div>
