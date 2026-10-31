@@ -1,0 +1,40 @@
+services:
+  # Supabase / PostgreSQL Core Database
+  supabase-db:
+    image: supabase/postgres:15.6.1.138
+    container_name: promptwear-supabase-db
+    restart: unless-stopped
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-postgres}
+      POSTGRES_DB: ${POSTGRES_DB:-postgres}
+      POSTGRES_USER: ${POSTGRES_USER:-postgres}
+    volumes:
+      - supabase_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d postgres"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  # Supabase Studio Dashboard (Local GUI at http://localhost:54323)
+  supabase-studio:
+    image: supabase/studio:20240729-9e81b6a
+    container_name: promptwear-supabase-studio
+    restart: unless-stopped
+    ports:
+      - "54323:3000"
+    environment:
+      STUDIO_PG_META_URL: http://supabase-db:5432
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-postgres}
+      DEFAULT_ORGANIZATION_NAME: "PromptWear Local"
+      DEFAULT_PROJECT_NAME: "PromptWear Dev"
+      SUPABASE_URL: http://localhost:54323
+    depends_on:
+      supabase-db:
+        condition: service_healthy
+
+volumes:
+  supabase_data:
+    driver: local

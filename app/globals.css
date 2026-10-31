@@ -1,0 +1,111 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --z-50: 250 250 250;
+  --z-100: 244 244 245;
+  --z-200: 228 228 231;
+  --z-300: 212 212 216;
+  --z-400: 161 161 170;
+  --z-500: 113 113 122;
+  --z-600: 82 82 91;
+  --z-700: 63 63 70;
+  --z-800: 39 39 42;
+  --z-850: 30 30 33;
+  --z-900: 24 24 27;
+  --z-950: 9 9 11;
+  --p: 0 255 136;
+  --p-hover: 0 221 119;
+  --background: #09090b;
+  --foreground: #fafafa;
+  --card: #121215;
+  --card-foreground: #fafafa;
+  --popover: #121215;
+  --popover-foreground: #fafafa;
+  --primary: #00ff88;
+  --primary-foreground: #000000;
+  --secondary: #1f1f23;
+  --secondary-foreground: #f4f4f5;
+  --muted: #18181b;
+  --muted-foreground: #a1a1aa;
+  --accent: #f59e0b;
+  --accent-foreground: #000000;
+  --destructive: #ef4444;
+  --destructive-foreground: #ffffff;
+  --border: #27272a;
+  --input: #27272a;
+  --ring: #00ff88;
+}
+
+html.light {
+  --z-50: 9 9 11;
+  --z-100: 24 24 27;
+  --z-200: 30 30 33;
+  --z-300: 39 39 42;
+  --z-400: 63 63 70;
+  --z-500: 82 82 91;
+  --z-600: 113 113 122;
+  --z-700: 161 161 170;
+  --z-800: 212 212 216;
+  --z-850: 228 228 231;
+  --z-900: 244 244 245;
+  --z-950: 250 250 250;
+  --p: 5 150 105;
+  --p-hover: 4 120 87;
+  --background: #fafafa;
+  --foreground: #09090b;
+  --card: #ffffff;
+  --border: #e4e4e7;
+  color-scheme: light;
+}
+html.light .text-white { color: #09090b; }
+html.light .bg-primary { color: #fff; }
+html.light [class*="bg-primary"] { color: #fff; }
+html.light .bg-primary .text-black, html.light button.bg-primary, html.light a.bg-primary { color: #fff; }
+html.light .streetwear-grid { background-image: linear-gradient(to right, rgba(0,0,0,0.05) 1px, transparent 1px), linear-gradient(to bottom, rgba(0,0,0,0.05) 1px, transparent 1px); }
+html.light ::-webkit-scrollbar-track { background: #fafafa; }
+html.light ::-webkit-scrollbar-thumb { background: #d4d4d8; }
+
+body {
+  color: var(--foreground);
+  background: var(--background);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Custom streetwear accents and subtle glow */
+.glow-primary {
+  box-shadow: 0 0 35px -5px rgba(0, 255, 136, 0.25);
+}
+
+.glow-card {
+  box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.7);
+}
+
+.streetwear-grid {
+  background-size: 32px 32px;
+  background-image: 
+    linear-gradient(to right, rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+}
+
+/* Custom scrollbars */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #09090b;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #27272a;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #3f3f46;
+}
