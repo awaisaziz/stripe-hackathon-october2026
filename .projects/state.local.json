@@ -1,0 +1,61 @@
+{
+  "version": 4,
+  "project": {
+    "catalog": "prod",
+    "initializedAt": "2026-10-31T00:13:28.205Z",
+    "merchantDisplayName": null,
+    "merchantId": "acct_1UWPptLJ9q5R0s5h",
+    "projectId": "project_61VfnscHGClJveKce16VfnnF7FA8YrJmTu9WjC288Mu0",
+    "projectName": "promptwear"
+  },
+  "providers": {
+    "clerk": {
+      "accountRequestId": "facctrq_61Vfnu0cvbaJ7vX5516VfnnF7FA8YrJmTu9WjC288OEa",
+      "configuration": {},
+      "linkedAt": "2026-10-31T00:14:56.851Z",
+      "providerId": "prvdr_61UGOeSW4e0T9Etwn537w",
+      "providerName": "Clerk",
+      "redirectUrl": null,
+      "requestedAt": "2026-10-31T00:14:56.851Z",
+      "status": "complete"
+    },
+    "vercel": {
+      "accountRequestId": "facctrq_61Vfny9JIW1ya3mY516VfnnF7FA8YrJmTu9WjC2888oq",
+      "configuration": {},
+      "linkedAt": "2026-10-31T00:19:14.313Z",
+      "providerId": "prvdr_61ULUAr4zlQgZkvXY5LsG",
+      "providerName": "Vercel",
+      "redirectUrl": null,
+      "requestedAt": "2026-10-31T00:19:14.313Z",
+      "status": "complete"
+    }
+  },
+  "resources": {
+    "clerk-plan": {
+      "configuration": {},
+      "createdAt": "2026-10-31T00:15:00.292Z",
+      "lastRevealedAt": "2026-10-31T00:15:00.988Z",
+      "lastStatus": "complete",
+      "livemode": true,
+      "name": "clerk-plan",
+      "providerId": "prvdr_61UGOeSW4e0T9Etwn537w",
+      "providerName": "Clerk",
+      "resourceId": "fres_61Vfnu6PktL9he6ya16VfnnF7FA8YrJmTu9WjC2881ii",
+      "serviceId": "hobby"
+    },
+    "promptwear": {
+      "configuration": {
+        "app_name": "promptwear"
+      },
+      "createdAt": "2026-10-31T00:15:10.924Z",
+      "lastRevealedAt": "2026-10-31T00:15:11.617Z",
+      "lastStatus": "complete",
+      "livemode": true,
+      "name": "promptwear",
+      "providerId": "prvdr_61UGOeSW4e0T9Etwn537w",
+      "providerName": "Clerk",
+      "resourceId": "fres_61VfnuGdR2z4hZ3WK16VfnnF7FA8YrJmTu9WjC288Q0O",
+      "serviceId": "auth"
+    }
+  }
+}

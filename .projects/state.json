@@ -1,0 +1,25 @@
+{
+  "version": 2,
+  "providers": {
+    "clerk": {
+      "name": "Clerk"
+    },
+    "vercel": {
+      "name": "Vercel"
+    }
+  },
+  "resources": {
+    "clerk-plan": {
+      "livemode": true,
+      "name": "clerk-plan",
+      "providerName": "Clerk",
+      "serviceId": "hobby"
+    },
+    "promptwear": {
+      "livemode": true,
+      "name": "promptwear",
+      "providerName": "Clerk",
+      "serviceId": "auth"
+    }
+  }
+}
