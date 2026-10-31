@@ -77,6 +77,14 @@ export function MeasurementsPicker({ garment, value, onChange }: MeasurementsPic
     }
   };
 
+  const isTote = garment === "tote";
+  const hasApparelSizes =
+    garment === "tshirt" ||
+    garment === "hoodie" ||
+    garment === "longsleeve" ||
+    garment === "crewneck" ||
+    garment === "tank";
+
   const widthLabel =
     garment === "tote"
       ? "Bag Width"
@@ -135,7 +143,7 @@ export function MeasurementsPicker({ garment, value, onChange }: MeasurementsPic
       </div>
 
       {/* Standard Size Preset Chips (Helper) */}
-      {!isTote && (
+      {hasApparelSizes && (
         <div>
           <div className="text-[11px] text-zinc-400 mb-2 flex items-center justify-between">
             <span>Quick fill from baseline size:</span>

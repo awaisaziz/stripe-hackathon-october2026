@@ -385,13 +385,12 @@ export async function isEventProcessed(eventId: string): Promise<boolean> {
   return memoryProcessedEvents.has(eventId);
 }
 
-export async function recordProcessedEvent(eventId: string, eventType: string): Promise<void> {
+export async function recordProcessedEvent(eventId: string, eventType: string = "stripe.event"): Promise<void> {
   memoryProcessedEvents.add(eventId);
   if (hasLiveDb && db) {
     try {
       await db.insert(schema.stripeEvents).values({
         id: eventId,
-        type: eventType,
       });
     } catch (e) {
       console.warn("DB record event failed:", e);
@@ -402,9 +401,9 @@ export async function recordProcessedEvent(eventId: string, eventType: string): 
 export async function createOrder(order: NewOrder): Promise<Order> {
   const fullOrder: Order = {
     ...order,
+    buyerId: order.buyerId ?? null,
     status: order.status || "paid",
     shippingAddress: order.shippingAddress || null,
-    stripeChargeId: order.stripeChargeId || null,
     createdAt: order.createdAt || new Date(),
   };
 
@@ -507,7 +506,27 @@ export async function getUserOrders(userId: string): Promise<Order[]> {
     .sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime());
 }
 
-export async function updateOrderStatus(orderId: string, status: "pending" | "paid" | "failed" | "refunded"): Promise<Order | null> {
+export async function getUserDesigns(ownerId: string): Promise<Design[]> {
+  if (hasLiveDb && db) {
+    try {
+      return await db
+        .select()
+        .from(schema.designs)
+        .where(eq(schema.designs.ownerId, ownerId))
+        .orderBy(desc(schema.designs.createdAt));
+    } catch (e) {
+      console.warn("DB getUserDesigns failed, using memory:", e);
+    }
+  }
+  return Array.from(memoryDesigns.values())
+    .filter((d) => d.ownerId === ownerId)
+    .sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime());
+}
+
+export async function updateOrderStatus(
+  orderId: string,
+  status: "pending" | "paid" | "in_production" | "shipped" | "failed" | "refunded" | string
+): Promise<Order | null> {
   if (hasLiveDb && db) {
     try {
       const updated = await db

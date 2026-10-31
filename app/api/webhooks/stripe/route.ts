@@ -102,7 +102,7 @@ export async function POST(req: NextRequest) {
 
     // Record processed event for idempotency
     if (event.id) {
-      await recordStripeEvent(event.id);
+      await recordStripeEvent(event.id, event.type || "stripe.event");
     }
 
     return NextResponse.json({ received: true });

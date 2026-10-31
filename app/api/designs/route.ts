@@ -7,7 +7,7 @@ const designSchema = z.object({
   title: z.string().min(1, "Title is required").max(100),
   prompt: z.string().min(1, "Prompt is required"),
   imageUrl: z.string().url("Valid image URL required"),
-  garment: z.enum(["tshirt", "hoodie", "longsleeve", "tank", "crewneck", "tote"]),
+  garment: z.enum(["tshirt", "hoodie", "longsleeve", "tank", "crewneck", "tote", "socks", "shoes"]),
   color: z.string().min(1),
   placement: z.object({
     x: z.number(),
